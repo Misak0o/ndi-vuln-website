@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Container, CssBaseline, TextField, Button, Alert, Paper, ThemeProvider, createTheme, Accordion, AccordionSummary, AccordionDetails, Divider, Drawer, Fab } from '@mui/material';
-import { ExpandMore, BugReport, VpnKey, Build, Send, Adb } from '@mui/icons-material';
+import { ExpandMore, BugReport, VpnKey, Build, Send, Adb, Info } from '@mui/icons-material';
 import HmacSHA256 from 'crypto-js/hmac-sha256';
 import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
 import VictoryPage from './components/VictoryPage';
+import VulnerabilityReportPage from './components/VulnerabilityReportPage';
 
 // --- Thème "Hacker Cool" ---
 const hackerTheme = createTheme({
@@ -48,6 +49,7 @@ const App: React.FC = () => {
   const [finalToken, setFinalToken] = useState('');
   const [attackResult, setAttackResult] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
   const [missionSuccess, setMissionSuccess] = useState(false);
+  const [showReport, setShowReport] = useState(false);
 
   // États des outils
   const [isToolboxOpen, setIsToolboxOpen] = useState(false);
@@ -177,7 +179,12 @@ const App: React.FC = () => {
         <Fab color="primary" sx={{ position: 'fixed', top: 16, right: 16 }} onClick={() => setIsToolboxOpen(true)}>
           <Build />
         </Fab>
+        <Fab color="secondary" sx={{ position: 'fixed', bottom: 16, left: 16 }} onClick={() => setShowReport(true)}>
+          <Info />
+        </Fab>
         
+        {showReport && <VulnerabilityReportPage onClose={() => setShowReport(false)} />}
+
         <Paper elevation={12} sx={{ p: 4, borderColor: 'primary.main', borderWidth: '1px', borderStyle: 'solid' }}>
           <Box sx={{ textAlign: 'center', mb: 2 }}><BugReport color="primary" sx={{ fontSize: 40 }} /><Typography variant="h4" component="h1">Le Casse du Café</Typography></Box>
           <Divider sx={{ mb: 4 }} />
