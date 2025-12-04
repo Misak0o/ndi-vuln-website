@@ -39,7 +39,7 @@ const HackerAnimation: React.FC<{ onComplete: () => void }> = ({ onComplete }) =
     }, 50);
     return () => { clearInterval(interval); clearTimeout(timeout); };
   }, [onComplete]);
-  return <pre style={{ color: '#00ff7f', whiteSpace: 'pre-wrap', wordBreak: 'break-all', height: '100px', overflowY: 'hidden', background: '#000', padding:'8px' }}>{text}</pre>;
+  return <pre style={{ color: '#00ff7f', whiteSpace: 'pre-wrap', wordBreak: 'break-all', height: '100px', overflowY: 'hidden', background: '#000', padding: '8px' }}>{text}</pre>;
 };
 
 const App: React.FC = () => {
@@ -73,7 +73,7 @@ const App: React.FC = () => {
       setDecodedPayload(prettyPrintJson(atob(p.replace(/-/g, '+').replace(/_/g, '/'))));
     } catch { setDecodedHeader("Erreur"); setDecodedPayload("Erreur"); }
   }, [decoderInput]);
-  
+
   const handleForge = () => {
     try {
       const header = { "alg": "HS256", "typ": "JWT" };
@@ -88,20 +88,20 @@ const App: React.FC = () => {
   // --- Logique de la mission principale ---
   useEffect(() => { // Démarrage
     fetch('http://localhost:8000/').then(res => res.json()).then(data => setInitialToken(data.token || '')).catch(() => {
-       setAttackResult({ type: 'error', message: "ERREUR: Backend non démarré." });
+      setAttackResult({ type: 'error', message: "ERREUR: Backend non démarré." });
     });
   }, []);
-  
+
   const handleAttack = async () => {
     setAttackResult(null);
     try {
       const response = await fetch('http://localhost:8000/admin', { headers: { 'Authorization': `Bearer ${finalToken}` } });
       const data = await response.json();
       setAttackResult({ type: response.ok ? 'success' : 'error', message: `${data.detail || data.message}` });
-      if(response.ok) setMissionSuccess(true);
+      if (response.ok) setMissionSuccess(true);
     } catch (err) { setAttackResult({ type: 'error', message: 'Erreur réseau.' }); }
   };
-  
+
   if (missionSuccess && attackResult) {
     return (
       <ThemeProvider theme={hackerTheme}>
@@ -132,12 +132,12 @@ const App: React.FC = () => {
         <>
           <Typography variant="h6" color="primary">Objectif 1: Investigation</Typography>
           <Typography sx={{ mt: 1 }}>Agent, la machine à café est en état critique. Le système de contrôle de la CCC a été repéré. Voici un token que nous avons intercepté.</Typography>
-          <TextField 
+          <TextField
             label={initialTokenCopied ? "Token Copié !" : "Token Intercepté (cliquez pour copier)"}
-            value={initialToken} 
-            fullWidth 
-            margin="normal" 
-            InputProps={{ readOnly: true }} 
+            value={initialToken}
+            fullWidth
+            margin="normal"
+            InputProps={{ readOnly: true }}
             onClick={() => {
               navigator.clipboard.writeText(initialToken);
               setInitialTokenCopied(true);
@@ -158,8 +158,8 @@ const App: React.FC = () => {
           <Typography sx={{ mt: 1 }}>Le payload montre que vous êtes un "guest". Pour changer ça, il nous faut le <strong>secret de signature</strong>. Utilisez le "Bruteforcer" dans la Boîte à Outils pour le trouver.</Typography>
           <Typography sx={{ mt: 1 }}>Une fois le secret obtenu, forgez un nouveau token. Le payload initial était <code>{`{"role":"guest"}`}</code>. Vous devez trouver le bon rôle pour prendre le contrôle. Les développeurs ont peut-être laissé un indice quelque part... <strong>regardez bien le code source de cette page !</strong></Typography>
           <Typography sx={{ mt: 1, fontStyle: 'italic' }}>Une fois le token forgé avec le bon rôle, copiez-le et collez-le ci-dessous pour l'assaut final.</Typography>
-          
-          <TextField label="Token de Contrôle (collez ici)" value={finalToken} onChange={(e) => setFinalToken(e.target.value)} fullWidth margin="normal" sx={{mt: 3}} disabled={!crackedSecret} />
+
+          <TextField label="Token de Contrôle (collez ici)" value={finalToken} onChange={(e) => setFinalToken(e.target.value)} fullWidth margin="normal" sx={{ mt: 3 }} disabled={!crackedSecret} />
           <Box sx={{ mt: 1, display: 'flex', gap: 2 }}>
             <Button variant="outlined" onClick={() => setCurrentMissionStep(1)}>Retour</Button>
             <Button variant="contained" color="error" onClick={handleAttack} sx={{ flexGrow: 1 }} disabled={!finalToken}>Prendre le Contrôle de la Machine</Button>
@@ -171,7 +171,6 @@ const App: React.FC = () => {
     }
   };
 
-  // INDICE: Pour prendre le contrôle, le payload doit être {"role": "admin"}
   return (
     <ThemeProvider theme={hackerTheme}>
       <CssBaseline />
@@ -182,7 +181,7 @@ const App: React.FC = () => {
         <Fab color="secondary" sx={{ position: 'fixed', bottom: 16, left: 16 }} onClick={() => setShowReport(true)}>
           <Info />
         </Fab>
-        
+
         {showReport && <VulnerabilityReportPage onClose={() => setShowReport(false)} />}
 
         <Paper elevation={12} sx={{ p: 4, borderColor: 'primary.main', borderWidth: '1px', borderStyle: 'solid' }}>
@@ -196,7 +195,7 @@ const App: React.FC = () => {
           <Box sx={{ width: 400, p: 2 }}>
             <Typography variant="h5" gutterBottom>Boîte à Outils</Typography>
             <Accordion>
-              <AccordionSummary expandIcon={<ExpandMore />}><VpnKey sx={{mr:1}}/> <Typography>Décodeur JWT</Typography></AccordionSummary>
+              <AccordionSummary expandIcon={<ExpandMore />}><VpnKey sx={{ mr: 1 }} /> <Typography>Décodeur JWT</Typography></AccordionSummary>
               <AccordionDetails>
                 <TextField label="Collez un JWT ici" value={decoderInput} onChange={(e) => setDecoderInput(e.target.value)} fullWidth multiline rows={4} margin="normal" />
                 <Typography variant="subtitle2">Header</Typography><pre>{decodedHeader}</pre>
@@ -204,29 +203,29 @@ const App: React.FC = () => {
               </AccordionDetails>
             </Accordion>
             <Accordion disabled={currentMissionStep < 2}>
-              <AccordionSummary expandIcon={<ExpandMore />}><Adb sx={{mr:1}}/> <Typography>Bruteforcer le Secret</Typography></AccordionSummary>
+              <AccordionSummary expandIcon={<ExpandMore />}><Adb sx={{ mr: 1 }} /> <Typography>Bruteforcer le Secret</Typography></AccordionSummary>
               <AccordionDetails>
-                   <Typography variant="body2" gutterBottom>Le secret est sûrement trivial...</Typography>
-                  {!isCracking && !crackedSecret && <Button variant="contained" onClick={() => setIsCracking(true)}>Lancer le bruteforce</Button>}
-                  {isCracking && <HackerAnimation onComplete={() => { setIsCracking(false); setCrackedSecret('secret'); }} />}
-                  {crackedSecret && <Alert severity="warning">SECRET TROUVÉ : <strong>{crackedSecret}</strong></Alert>}
+                <Typography variant="body2" gutterBottom>Le secret est sûrement trivial...</Typography>
+                {!isCracking && !crackedSecret && <Button variant="contained" onClick={() => setIsCracking(true)}>Lancer le bruteforce</Button>}
+                {isCracking && <HackerAnimation onComplete={() => { setIsCracking(false); setCrackedSecret('secret'); }} />}
+                {crackedSecret && <Alert severity="warning">SECRET TROUVÉ : <strong>{crackedSecret}</strong></Alert>}
               </AccordionDetails>
             </Accordion>
-             <Accordion disabled={currentMissionStep < 2}>
-              <AccordionSummary expandIcon={<ExpandMore />}><Send sx={{mr:1}}/> <Typography>Atelier de Forge</Typography></AccordionSummary>
+            <Accordion disabled={currentMissionStep < 2}>
+              <AccordionSummary expandIcon={<ExpandMore />}><Send sx={{ mr: 1 }} /> <Typography>Atelier de Forge</Typography></AccordionSummary>
               <AccordionDetails>
                 <Typography variant="body2" gutterBottom>Le payload initial est <code>{`{"role":"guest"}`}</code>. Quel rôle pourrait contrôler une machine à café ?</Typography>
                 <TextField label="Payload à forger" value={forgePayload} onChange={(e) => setForgePayload(e.target.value)} fullWidth margin="normal" helperText='Ex: {"role": "???"}' />
                 <TextField label="Secret" value={forgeSecret} onChange={(e) => setForgeSecret(e.target.value)} fullWidth margin="normal" />
                 <Button variant="contained" onClick={handleForge} sx={{ mt: 1 }}>Forger le Token</Button>
-                {forgedToken && <TextField 
+                {forgedToken && <TextField
                   label={tokenCopied ? "Token Copié !" : "Token Forgé (cliquez pour copier)"}
-                  value={forgedToken} 
-                  fullWidth 
-                  margin="normal" 
-                  multiline 
-                  rows={4} 
-                  InputProps={{ readOnly: true }} 
+                  value={forgedToken}
+                  fullWidth
+                  margin="normal"
+                  multiline
+                  rows={4}
+                  InputProps={{ readOnly: true }}
                   onClick={() => {
                     navigator.clipboard.writeText(forgedToken);
                     setTokenCopied(true);
