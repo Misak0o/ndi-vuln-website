@@ -19,6 +19,7 @@ RUN npm install -g serve
 
 # Copy built assets from the build stage
 COPY --from=build /app/dist .
+COPY --from=build /app/public/VULNERABILITY_REPORT.md .
 
 # Expose port 3000
 EXPOSE 3000
