@@ -1,0 +1,69 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Compiled output
+dist
+dist-ssr
+/out-tsc
+/tmp
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Test & Coverage
+coverage
+.nyc_output
+lib-cov
+
+# Build tools & caches
+.npm
+.grunt
+.eslintcache
+.node_repl_history
+.sass-cache
+bower_components
+.lock-wscript
+connect.lock
+typings
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.local
+.env.*.local
+*.local
+
+# Next.js build output
+.next
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System Files
+Thumbs.db

@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000" # Expose backend port to host
+    networks:
+      - webnet
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000" # Expose frontend port to host
+    depends_on:
+      - backend
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
